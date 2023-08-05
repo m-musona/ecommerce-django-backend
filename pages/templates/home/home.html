@@ -3,5 +3,29 @@
 {% for product in products %}
 <div>
   <h4>{{ product.title }}</h4>
+  <ul>
+    <li><p>{{ product.id }}</p></li>
+    <li><p>{{ product.price }}</p></li>
+    <li><p>{{ product.category }}</p></li>
+    <li><p>{{ product.sub_category }}</p></li>
+    <li>
+      <h5>Features</h5>
+      <ul>
+        {% for feature in product.features.all %}
+        <li><p>{{ feature }}</p></li>
+        {% endfor %}
+      </ul>
+    </li>
+    <li>
+      <h5>Tags</h5>
+      <ul>
+        {% for tag in product.tags.all %}
+        <li><p>{{ tag }}</p></li>
+        {% endfor %}
+      </ul>
+    </li>
+    <li><p>{{ product.updated }}</p></li>
+    <li><p>{{ product.created }}</p></li>
+  </ul>
 </div>
 {% endfor %} {% endblock %}
