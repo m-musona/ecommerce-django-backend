@@ -6,13 +6,13 @@ from rest_framework import routers
 urlpatterns = [
     path("products/", views.getProducts),
     path("products/<uuid:id>/", views.getProduct),
-    path("products/<uuid:category_id>/", views.getProductsByCategory),
+    path("products/<str:category_id>/", views.getProductsByCategory),
     path(
-        "products/<uuid:category_id>/<uuid:sub_category_id>/",
+        "products/<str:category_id>/<str:sub_category_id>/",
         views.getProductsBySubCategory,
     ),
     path(
-        "products/<uuid:category_id>/<uuid:sub_category_id>/<uuid:tag_id>/",
+        "products/<str:category_id>/<str:sub_category_id>/<str:tag_id>/",
         views.getProductsByTag,
     ),
     path("categories/", views.getCategories),
