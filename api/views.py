@@ -1,7 +1,7 @@
 from django.db.models import Q
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from products.models import Product, Category, SubCategory, Tag
+from products.models import Product, Category, ElectronicsSubCategory,FashionSubCategory,WatchesSubCategory,AppliancesSubCategory,SportsAndLeisureSubCategory
 from .serializers import ProductSerializer, CategorySerializer
 
 # Create your views here.
@@ -32,20 +32,17 @@ def getProductsByCategory(request, category_id):
 @api_view(["GET"])
 def getProductsBySubCategory(request, category_id, sub_category_id):
     category = Category.objects.get(id=category_id)
-    sub_category = SubCategory.objects.get(id=sub_category_id)
+    if category == "Electronics":
+        sub_category = ElectronicsSubCategory.objects.get(id=sub_category_id)
+    elif category == "Fashion":
+        sub_category = FashionSubCategory.objects.get(id=sub_category_id)
+    elif category == "Watches":
+        sub_category = WatchesSubCategory.objects.get(id=sub_category_id)
+    elif category == "Sports & Leisure":
+        sub_category = SportsAndLeisureSubCategory.objects.get(id=sub_category_id)
+    else:
+        sub_category = AppliancesSubCategory.objects.get(id=sub_category_id)
     products = Product.objects.filter(sub_category=sub_category, category=category)
-    serializer = ProductSerializer(products, many=True)
-    return Response(serializer.data)
-
-
-@api_view(["GET"])
-def getProductsByTag(request, category_id, sub_category_id, tag_id):
-    category = Category.objects.get(id=category_id)
-    sub_category = SubCategory.objects.get(id=sub_category_id)
-    tag = Tag.objects.get(id=tag_id)
-    products = Product.objects.filter(
-        sub_category=sub_category, category=category, tags=tag
-    )
     serializer = ProductSerializer(products, many=True)
     return Response(serializer.data)
 

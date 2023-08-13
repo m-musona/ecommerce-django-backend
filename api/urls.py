@@ -11,9 +11,5 @@ urlpatterns = [
         "products/<str:category_id>/<str:sub_category_id>/",
         views.getProductsBySubCategory,
     ),
-    path(
-        "products/<str:category_id>/<str:sub_category_id>/<str:tag_id>/",
-        views.getProductsByTag,
-    ),
     path("categories/", views.getCategories),
 ]

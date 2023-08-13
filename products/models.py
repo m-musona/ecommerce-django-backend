@@ -4,34 +4,56 @@ from django.db import models
 
 # Create your models here.
 
-
-class Feature(models.Model):
-    id = models.CharField(primary_key=True, max_length=50, blank=False)
-
-    def __str__(self):
-        return self.id
-
-
-class Tag(models.Model):
-    id = models.CharField(primary_key=True, max_length=50, blank=False)
-
-    def __str__(self):
-        return self.id
-
-
-class SubCategory(models.Model):
+class ElectronicsSubCategory(models.Model):
     id = models.CharField(
-        primary_key=True, max_length=50, blank=False, default="No Sub Category"
+        primary_key=True, max_length=50, blank=False
     )
-    tag = models.ManyToManyField(Tag)
 
     def __str__(self):
         return self.id
 
+class FashionSubCategory(models.Model):
+    id = models.CharField(
+        primary_key=True, max_length=50, blank=False
+    )
+
+    def __str__(self):
+        return self.id
+    
+
+class SportsAndLeisureSubCategory(models.Model):
+    id = models.CharField(
+        primary_key=True, max_length=50, blank=False
+    )
+
+    def __str__(self):
+        return self.id
+    
+
+class WatchesSubCategory(models.Model):
+    id = models.CharField(
+        primary_key=True, max_length=50, blank=False
+    )
+
+    def __str__(self):
+        return self.id
+
+
+class AppliancesSubCategory(models.Model):
+    id = models.CharField(
+        primary_key=True, max_length=50, blank=False
+    )
+
+    def __str__(self):
+        return self.id
 
 class Category(models.Model):
     id = models.CharField(max_length=50, blank=False, primary_key=True)
-    sub_category = models.ManyToManyField(SubCategory)
+    electronics_sub_category = models.ManyToManyField(ElectronicsSubCategory)
+    fashion_sub_category = models.ManyToManyField(FashionSubCategory)
+    watches_sub_category = models.ManyToManyField(WatchesSubCategory)
+    sports_and_leisure_sub_category = models.ManyToManyField(SportsAndLeisureSubCategory)
+    appliances_sub_category = models.ManyToManyField(AppliancesSubCategory)
 
     def __str__(self):
         return self.id
@@ -48,7 +70,6 @@ class Product(models.Model):
     )
     title = models.CharField(max_length=100, blank=False)
     price = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
-    features = models.ManyToManyField(Feature)
     product_image = models.ImageField(
         null=True,
         blank=True,
@@ -63,12 +84,31 @@ class Product(models.Model):
         on_delete=models.CASCADE,
         default=1,
     )
-    sub_category = models.ForeignKey(
-        SubCategory,
+    electronics_sub_category = models.ForeignKey(
+        ElectronicsSubCategory,
         on_delete=models.CASCADE,
         default=1,
     )
-    tags = models.ManyToManyField(Tag)
+    fashion_sub_category = models.ForeignKey(
+        FashionSubCategory,
+        on_delete=models.CASCADE,
+        default=1,
+    )
+    watches_sub_category = models.ForeignKey(
+        WatchesSubCategory,
+        on_delete=models.CASCADE,
+        default=1,
+    )
+    sports_and_leisure_sub_category = models.ForeignKey(
+        SportsAndLeisureSubCategory,
+        on_delete=models.CASCADE,
+        default=1,
+    )
+    appliances_sub_category = models.ForeignKey(
+        AppliancesSubCategory,
+        on_delete=models.CASCADE,
+        default=1,
+    )
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
