@@ -17,6 +17,8 @@ class Product(models.Model):
     )
     title = models.CharField(max_length=150, blank=False)
     price = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
+    product_image_width = models.PositiveIntegerField(default=553)
+    product_image_height = models.PositiveIntegerField(default=400)
     product_image = models.ImageField(
         null=True,
         blank=True,
@@ -24,8 +26,6 @@ class Product(models.Model):
         height_field="product_image_height",
         upload_to=product_image_path,
     )
-    product_image_width = models.PositiveIntegerField(default=553)
-    product_image_height = models.PositiveIntegerField(default=400)
     rating = models.ForeignKey(Rating, on_delete=models.SET_NULL, null=True)
     category = models.ForeignKey(
         Category,

@@ -12,4 +12,5 @@ urlpatterns = [
         views.getProductsBySubCategory,
     ),
     path("categories/", views.getCategories),
+    path('search/', views.searchForProducts),
 ]

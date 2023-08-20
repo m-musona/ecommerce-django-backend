@@ -1,6 +1,7 @@
 from django.db.models import Q
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import status
 from products.models import Product
 from category.models import  Category, ElectronicsSubCategory,FashionSubCategory,WatchesSubCategory,AppliancesSubCategory,SportsAndLeisureSubCategory
 from .serializers import ProductSerializer, CategorySerializer
@@ -68,3 +69,14 @@ def getCategories(request):
     categories = Category.objects.all()
     serializer = CategorySerializer(categories, many=True)
     return Response(serializer.data)
+
+@api_view(['GET'])
+def searchForProducts(request):
+    query = request.GET.get('q')
+
+    if query:
+        products = Product.objects.filter(title__icontains=query)
+        serializer = ProductSerializer(products, many=True)
+        return Response(serializer.data)
+    else:
+        return Response("Please provide a valid search query.", status=status.HTTP_400_BAD_REQUEST)
