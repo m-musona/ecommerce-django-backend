@@ -1,14 +1,15 @@
 from django.db.models import Q
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from products.models import Product, Category, ElectronicsSubCategory,FashionSubCategory,WatchesSubCategory,AppliancesSubCategory,SportsAndLeisureSubCategory
+from products.models import Product
+from category.models import  Category, ElectronicsSubCategory,FashionSubCategory,WatchesSubCategory,AppliancesSubCategory,SportsAndLeisureSubCategory
 from .serializers import ProductSerializer, CategorySerializer
 
 # Create your views here.
 
 
 @api_view(["GET"])
-def getProducts(request):
+def getAllProducts(request):
     products = Product.objects.all()
     serializer = ProductSerializer(products, many=True)
     return Response(serializer.data)
@@ -32,17 +33,32 @@ def getProductsByCategory(request, category_id):
 @api_view(["GET"])
 def getProductsBySubCategory(request, category_id, sub_category_id):
     category = Category.objects.get(id=category_id)
-    if category == "Electronics":
-        sub_category = ElectronicsSubCategory.objects.get(id=sub_category_id)
-    elif category == "Fashion":
-        sub_category = FashionSubCategory.objects.get(id=sub_category_id)
-    elif category == "Watches":
-        sub_category = WatchesSubCategory.objects.get(id=sub_category_id)
-    elif category == "Sports & Leisure":
-        sub_category = SportsAndLeisureSubCategory.objects.get(id=sub_category_id)
+    if category_id == "Electronics":
+        electronics_sub_category = ElectronicsSubCategory.objects.get(id=sub_category_id)
+        products = Product.objects.filter(
+        electronics_sub_category=electronics_sub_category,
+        category=category)
+    elif category_id == "Fashion":
+        fashion_sub_category = FashionSubCategory.objects.get(id=sub_category_id)
+        products = Product.objects.filter( 
+        fashion_sub_category=fashion_sub_category,
+        category=category)
+    elif category_id == "Watches":
+        watches_sub_category = WatchesSubCategory.objects.get(id=sub_category_id)
+        products = Product.objects.filter(
+        watches_sub_category=watches_sub_category,
+        category=category)
+    elif category_id == "Sports & Leisure":
+        sports_and_leisure_sub_category = SportsAndLeisureSubCategory.objects.get(id=sub_category_id)
+        products = Product.objects.filter(
+        sports_and_leisure_sub_category=sports_and_leisure_sub_category,
+        category=category)
     else:
-        sub_category = AppliancesSubCategory.objects.get(id=sub_category_id)
-    products = Product.objects.filter(sub_category=sub_category, category=category)
+        appliances_sub_category = AppliancesSubCategory.objects.get(id=sub_category_id)
+        products = Product.objects.filter(
+        appliances_sub_category=appliances_sub_category,
+        category=category)
+
     serializer = ProductSerializer(products, many=True)
     return Response(serializer.data)
 

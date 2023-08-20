@@ -4,7 +4,7 @@ from rest_framework import routers
 
 
 urlpatterns = [
-    path("products/", views.getProducts),
+    path("products/", views.getAllProducts),
     path("products/<uuid:id>/", views.getProduct),
     path("products/<str:category_id>/", views.getProductsByCategory),
     path(

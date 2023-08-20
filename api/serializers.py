@@ -1,4 +1,5 @@
-from products.models import Product, Category
+from products.models import Product
+from category.models import Category
 from rest_framework.serializers import ModelSerializer
 
 
@@ -10,8 +11,13 @@ class ProductSerializer(ModelSerializer):
             "title",
             "price",
             "product_image",
+            "rating",
             "category",
-            "sub_category",
+            "electronics_sub_category",
+            "fashion_sub_category",
+            "watches_sub_category",
+            "sports_and_leisure_sub_category",
+            "appliances_sub_category",
             "updated",
             "created",
         ]
@@ -22,5 +28,9 @@ class CategorySerializer(ModelSerializer):
         model = Category
         fields = [
             "id",
-            "sub_category",
+            "electronics_sub_category",
+            "fashion_sub_category",
+            "watches_sub_category",
+            "sports_and_leisure_sub_category",
+            "appliances_sub_category",
         ]
