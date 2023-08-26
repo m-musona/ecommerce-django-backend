@@ -1,6 +1,7 @@
 from products.models import Product
 from category.models import Category
 from rest_framework.serializers import ModelSerializer
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 
 class ProductSerializer(ModelSerializer):
@@ -34,3 +35,15 @@ class CategorySerializer(ModelSerializer):
             "sports_and_leisure_sub_category",
             "appliances_sub_category",
         ]
+
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+
+        # Add custom claims
+        token["username"] = user.username
+        # ...
+
+        return token

@@ -1,6 +1,6 @@
 from django.urls import path, include
 from . import views
-from rest_framework import routers
+from rest_framework_simplejwt.views import TokenRefreshView
 
 
 urlpatterns = [
@@ -12,5 +12,8 @@ urlpatterns = [
         views.getProductsBySubCategory,
     ),
     path("categories/", views.getCategories),
-    path('search/', views.searchForProducts),
+    path("search/", views.searchForProducts),
+    # Uer token routes
+    path("token/", views.MyTokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 ]
